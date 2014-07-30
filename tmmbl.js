@@ -1,18 +1,22 @@
-var parada = "0001"
-ajax({ url: 'http://www.tmb.cat/piu/ca_ES/piuimodesolucio.jsp?parada='+ parada }, function(data){
-  var info = data.match(/<td align="center">(.*?)<\/td>/g);
-  simply.title('Parada ' + parada);
-  var output = "";
-  for (var i = 2; i<info.length; i++)
-  {
-    output = output + " " + info[i];
-    if (i%2!=0) output = output + "\n"
-  }
-  simply.body(clean(output));
+console.log('Simply.js demo!');
+
+simply.on('singleClick', function(e) {
+  console.log(util2.format('single clicked $button!', e));
+  simply.subtitle('Pressed ' + e.button + '!');
 });
 
+simply.on('longClick', function(e) {
+  console.log(util2.format('long clicked $button!', e));
+  simply.vibe();
+  simply.scrollable(e.button !== 'select');
+});
 
-function clean(text)
-{
-  return text.replace(/<td align=\"center\">/g,'').replace(/<\/td>/g,'').replace(/<b>/g,'').replace(/<\/b>/g,'');
-}
+simply.on('accelTap', function(e) {
+  console.log(util2.format('tapped accel axis $axis $direction!', e));
+  simply.subtitle('Tapped ' + (e.direction > 0 ? '+' : '-') + e.axis + '!');
+});
+
+simply.setText({
+  title: 'Simply Demo!',
+  body: 'This is a demo. Press buttons or tap the watch!',
+}, true);
