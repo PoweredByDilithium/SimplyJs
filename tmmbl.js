@@ -1,22 +1,8 @@
-console.log('Simply.js demo!');
+var weatherUrl = 'http://geonet.org.nz/quakes/services/quake/2014p088748.json';
 
-simply.on('singleClick', function(e) {
-  console.log(util2.format('single clicked $button!', e));
-  simply.subtitle('Pressed ' + e.button + '!');
+ajax({ url: weatherUrl, type: 'json' }, function(data) {
+    simply.text({
+    title: data.features[0].properties.magnitude,
+    subtitle: data.features[0].properties.depth,
+    body: data.features[0].properties.intensity
 });
-
-simply.on('longClick', function(e) {
-  console.log(util2.format('long clicked $button!', e));
-  simply.vibe();
-  simply.scrollable(e.button !== 'select');
-});
-
-simply.on('accelTap', function(e) {
-  console.log(util2.format('tapped accel axis $axis $direction!', e));
-  simply.subtitle('Tapped ' + (e.direction > 0 ? '+' : '-') + e.axis + '!');
-});
-
-simply.setText({
-  title: 'Simply Demo!',
-  body: 'This is a demo. Press buttons or tap the watch!',
-}, true);
